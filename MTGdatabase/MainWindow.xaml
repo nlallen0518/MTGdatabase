@@ -1,0 +1,102 @@
+﻿<Window x:Class="MagicCardDatabase.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:MagicCardDatabase"
+        Title="Magic Card Database" Height="900" Width="1600"
+        Loaded="MainWindow_Loaded">
+
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
+
+    <Grid Background="{DynamicResource LightModeBackground}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="227*"/>
+            <ColumnDefinition Width="1123*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Panel with TabControl -->
+        <TabControl Grid.Column="0" Margin="10,10,10,10" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}">
+            <!-- Search Tab -->
+            <TabItem Header="Search">
+                <StackPanel Height="835">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="0,0,0,5">
+                        <TextBlock Text="Search by:" VerticalAlignment="Center" Margin="5 10" Foreground="{DynamicResource LightModeForeground}"/>
+                        <ComboBox x:Name="searchCriteriaComboBox" Margin="5 10">
+                            <ComboBoxItem Content="Name" x:Name="searchByNameComboBoxItem" />
+                            <ComboBoxItem Content="Number" x:Name="searchByNumberComboBoxItem"/>
+                            <ComboBoxItem Content="Set" x:Name="searchBySetComboBoxItem"/>
+                            <ComboBoxItem Content="Type" x:Name="searchByTypeComboBoxItem"/>
+                            <ComboBoxItem Content="Rarity" x:Name="searchByRarityComboBoxItem"/>
+                        </ComboBox>
+                    </StackPanel>
+                    <TextBox x:Name="searchTextBox" 
+                             Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
+                             GotFocus="TextBox_GotFocus" 
+                             LostFocus="TextBox_LostFocus" />
+                    <Button Content="Search" Command="{Binding SearchCommand}" />
+                    <Button Content="Add to Collection" Command="{Binding AddCardCommand}" />
+                </StackPanel>
+            </TabItem>
+
+            <!-- Add Tab -->
+            <TabItem Header="Add">
+                <StackPanel>
+                    <TextBlock Text="Add New Card" Margin="10,10,0,0" Foreground="{DynamicResource LightModeForeground}"/>
+                    <TextBox x:Name="nameTextBox" Margin="5 5" Style="{StaticResource RoundedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Card Name" Foreground="{StaticResource PlaceholderBrush}" />
+                    <TextBox x:Name="numberTextBox" Margin="5 5" Style="{StaticResource RoundedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Card Number" Foreground="{StaticResource PlaceholderBrush}" />
+                    <TextBox x:Name="typeTextBox" Margin="5 5" Style="{StaticResource RoundedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Card Type" Foreground="{StaticResource PlaceholderBrush}" />
+                    <TextBox x:Name="setTextBox" Margin="5 5" Style="{StaticResource RoundedTextBoxStyle}" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Card Set" Foreground="{StaticResource PlaceholderBrush}" />
+                    <TextBox x:Name="rarityTextBox" Margin="5 5" Style="{StaticResource RoundedTextBoxStyle}"  GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus" Text="Card Rarity" Foreground="{StaticResource PlaceholderBrush}" />
+                    <Button Content="Add Card" Margin="5 10" Style="{StaticResource RoundedButtonStyle}" Foreground="{DynamicResource LightModeForeground}"/>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <!-- Menu Area above Right Column -->
+        <Menu Grid.Row="0" Grid.Column="1" Height="30" VerticalAlignment="Top" 
+      HorizontalAlignment="Left" Margin="10,0,0,0" FontSize="14" 
+      VerticalContentAlignment="Center" Grid.IsSharedSizeScope="True" 
+      UseLayoutRounding="False" FontWeight="Bold" Background="{DynamicResource LightModeBackground}">
+            <MenuItem Header="File" Padding="0,0,10,0" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"
+              >
+                <MenuItem Header="New" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Open" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Save" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <Separator />
+                <MenuItem Header="Exit" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+            </MenuItem>
+            <MenuItem Header="Edit" Padding="0,0,10,0" Grid.IsSharedSizeScope="True" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}">
+                <MenuItem Header="Undo" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Redo" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <Separator />
+                <MenuItem Header="Cut" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Copy" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Paste" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+            </MenuItem>
+            <MenuItem Header="View" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}">
+                <MenuItem Header="Light Mode" Click="LightModeMenuItem_Click" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+                <MenuItem Header="Dark Mode" Click="DarkModeMenuItem_Click" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}"/>
+            </MenuItem>
+        </Menu>
+
+
+        <!-- Right Panel -->
+        <ListBox ItemsSource="{Binding SearchResults}" Grid.Column="1" Margin="10,32,10,10" Grid.ColumnSpan="2" Foreground="{DynamicResource LightModeForeground}" Background="{DynamicResource LightModeBackground}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding ImageUrl}" Width="100" Height="140"/>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        
+
+        <!-- Toggle Mode Button -->
+    </Grid>
+</Window>
